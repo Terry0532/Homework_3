@@ -9,21 +9,8 @@ var passwordCharacters = {
   specialCharacters: [" ", "!", '"', "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "]", "^", "_", "`", "{", "}", "|", "~", "\\"]
 }
 
-//an array of generated password
-var password = [];
-
-//to confirm which type of characters you need and how long is the password
-function toConfirm() {
-  var confirmUppercase = confirm("uppercase characters? ok for yes, cancel for no.");
-  var confirmLowercase = confirm("lowercase characters? ok for yes, cancel for no.");
-  var confirmNumber = confirm("numbers? ok for yes, cancel for no.");
-  var confirmSpecialChar = confirm("special characters? ok for yes, cancel for no.");
-  var passwordLength = Number(prompt("length of the password?"));
-}
-
 // Write password to the #password input
 function writePassword() {
-  toConfirm();
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
   passwordText.value = password;
@@ -31,6 +18,18 @@ function writePassword() {
 
 //password generator
 function generatePassword() {
+  
+  //to confirm which type of characters you need and how long is the password
+  var confirmUppercase = confirm("uppercase characters? ok for yes, cancel for no.");
+  var confirmLowercase = confirm("lowercase characters? ok for yes, cancel for no.");
+  var confirmNumber = confirm("numbers? ok for yes, cancel for no.");
+  var confirmSpecialChar = confirm("special characters? ok for yes, cancel for no.");
+  var passwordLength = Number(prompt("length of the password?"));
+  
+  //an empty array to store password
+  var password = [];
+
+  //randomly generator password
   for (let i = 0; i < passwordLength; i++) {
     if (confirmUppercase === true && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === false) {
       password.push(randomPickerUppercase());
@@ -51,6 +50,9 @@ function generatePassword() {
 
     }
   }
+
+  //return password in string
+  return password.join("");
 }
 
 //random pick character from password object
