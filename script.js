@@ -9,21 +9,23 @@ var passwordCharacters = {
   specialCharacters: [" ", "!", '"', "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "]", "^", "_", "`", "{", "}", "|", "~", "\\"]
 }
 
-//to confirm which type of characters you need
-var confirmUppercase = confirm("uppercase characters? ok for yes, cancel for no.");
-var confirmLowercase = confirm("lowercase characters? ok for yes, cancel for no.");
-var confirmNumber = confirm("numbers? ok for yes, cancel for no.");
-var confirmSpecialChar = confirm("special characters? ok for yes, cancel for no.");
-var passwordLength = Number(prompt("length of the password?"));
-
 //an array of generated password
 var password = [];
 
+//to confirm which type of characters you need and how long is the password
+function toConfirm() {
+  var confirmUppercase = confirm("uppercase characters? ok for yes, cancel for no.");
+  var confirmLowercase = confirm("lowercase characters? ok for yes, cancel for no.");
+  var confirmNumber = confirm("numbers? ok for yes, cancel for no.");
+  var confirmSpecialChar = confirm("special characters? ok for yes, cancel for no.");
+  var passwordLength = Number(prompt("length of the password?"));
+}
+
 // Write password to the #password input
 function writePassword() {
+  toConfirm();
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
-
   passwordText.value = password;
 }
 
