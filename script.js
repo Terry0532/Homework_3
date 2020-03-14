@@ -18,14 +18,21 @@ function writePassword() {
 
 //password generator
 function generatePassword() {
-  
   //to confirm which type of characters you need and how long is the password
-  var confirmUppercase = confirm("uppercase characters? ok for yes, cancel for no.");
-  var confirmLowercase = confirm("lowercase characters? ok for yes, cancel for no.");
-  var confirmNumber = confirm("numbers? ok for yes, cancel for no.");
-  var confirmSpecialChar = confirm("special characters? ok for yes, cancel for no.");
-  var passwordLength = Number(prompt("length of the password?"));
-  
+  var confirmUppercase = confirm("Do you want uppercase characters? Click 'OK' for yes, click 'Cancel' for no.");
+  var confirmLowercase = confirm("Do you want lowercase characters? Click 'OK' for yes, click 'Cancel' for no.");
+  var confirmNumber = confirm("Do you want numbers? Click 'OK' for yes, click 'Cancel' for no.");
+  var confirmSpecialChar = confirm("Do you want special characters? Click 'OK' for yes, click 'Cancel' for no.");
+  var passwordLength = Number(prompt("Length of the password? Enter a number between 8~128."));
+  console.log(passwordLength);
+
+  //must enter a number between 8~128
+  while (passwordLength < 8 || passwordLength > 128 || isNaN(passwordLength)) {
+    var passwordLength = Number(prompt("Length of the password? Enter a number between 8~128."));
+    console.log(passwordLength);
+    console.log(isNaN(passwordLength));
+  }
+
   //an empty array to store password
   var password = [];
 
@@ -33,13 +40,12 @@ function generatePassword() {
   for (let i = 0; i < passwordLength; i++) {
     if (confirmUppercase === true && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === false) {
       password.push(randomPickerUppercase());
-      console.log(password.join(""));
     } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === false) {
-
+      password.push(randomPickerLowercase());
     } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === false) {
-
+      password.push(randomPickerNumber());
     } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === true) {
-
+      password.push(randomPickerSpecialChar());
     } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === true) {
 
     } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === true) {
@@ -58,6 +64,15 @@ function generatePassword() {
 //random pick character from password object
 function randomPickerUppercase() {
   return passwordCharacters.uppercase[Math.floor(Math.random() * 26)];
+}
+function randomPickerLowercase() {
+  return passwordCharacters.lowercase[Math.floor(Math.random() * 26)];
+}
+function randomPickerNumber() {
+  return passwordCharacters.numeric[Math.floor(Math.random() * 10)];
+}
+function randomPickerSpecialChar() {
+  return passwordCharacters.specialCharacters[Math.floor(Math.random() * 33)];
 }
 
 // Add event listener to generate button
