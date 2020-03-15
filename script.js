@@ -17,8 +17,9 @@ function writePassword() {
   var generatedPassword = generatePassword();
   var passwordText = document.querySelector("#password");
   passwordText.value = generatedPassword;
+
+  //reset password array
   password = [];
-  console.log(password);
 }
 
 //password generator
@@ -32,7 +33,7 @@ function generatePassword() {
   var passwordLength = Number(prompt("Length of the password?\nEnter a number between 8~128."));
   
   //store how many of each characters we need
-  var numberOfUppercase, numberOfLowercase, numberOfNumeric, numberOfSpecialChar;
+  var charactersCounter;
 
   //must enter a number between 8~128
   while (passwordLength < 8 || passwordLength > 128 || isNaN(passwordLength)) {
@@ -49,47 +50,23 @@ function generatePassword() {
   } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === true) {
     getPassword(null, null, null, passwordLength);
   } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === false) {
-    numberOfUppercase = Math.floor(Math.random() * passwordLength) + 1;
-    while (numberOfUppercase === 0 || numberOfUppercase === passwordLength) {
-      numberOfUppercase = Math.floor(Math.random() * passwordLength) + 1;
-    }
-    numberOfLowercase = passwordLength - numberOfUppercase;
-    getPassword(numberOfUppercase, numberOfLowercase);
+    charactersCounter = randomlySplitNumber(passwordLength, 2);
+    getPassword(charactersCounter[0], charactersCounter[1]);
   } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === false) {
-    numberOfUppercase = Math.floor(Math.random() * passwordLength) + 1;
-    while (numberOfUppercase === 0 || numberOfUppercase === passwordLength) {
-      numberOfUppercase = Math.floor(Math.random() * passwordLength) + 1;
-    }
-    numberOfNumeric = passwordLength - numberOfUppercase;
-    getPassword(numberOfUppercase, null, numberOfNumeric);
+    charactersCounter = randomlySplitNumber(passwordLength, 2);
+    getPassword(charactersCounter[0], null, charactersCounter[1]);
   } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === true) {
-    numberOfUppercase = Math.floor(Math.random() * passwordLength) + 1;
-    while (numberOfUppercase === 0 || numberOfUppercase === passwordLength) {
-      numberOfUppercase = Math.floor(Math.random() * passwordLength) + 1;
-    }
-    numberOfSpecialChar = passwordLength - numberOfUppercase;
-    getPassword(numberOfUppercase, null, null, numberOfSpecialChar);
+    charactersCounter = randomlySplitNumber(passwordLength, 2);
+    getPassword(charactersCounter[0], null, null, charactersCounter[1]);
   } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === false) {
-    numberOfLowercase = Math.floor(Math.random() * passwordLength) + 1;
-    while (numberOfLowercase === 0 || numberOfLowercase === passwordLength) {
-      numberOfLowercase = Math.floor(Math.random() * passwordLength) + 1;
-    }
-    numberOfNumeric = passwordLength - numberOfLowercase;
-    getPassword(null, numberOfLowercase, numberOfNumeric);
+    charactersCounter = randomlySplitNumber(passwordLength, 2);
+    getPassword(null, charactersCounter[0], charactersCounter[1]);
   } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === true) {
-    numberOfLowercase = Math.floor(Math.random() * passwordLength) + 1;
-    while (numberOfLowercase === 0 || numberOfLowercase === passwordLength) {
-      numberOfLowercase = Math.floor(Math.random() * passwordLength) + 1;
-    }
-    numberOfSpecialChar = passwordLength - numberOfLowercase;
-    getPassword(null, numberOfLowercase, null, numberOfSpecialChar);
+    charactersCounter = randomlySplitNumber(passwordLength, 2);
+    getPassword(null, charactersCounter[0], null, charactersCounter[1]);
   } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === true) {
-    numberOfNumeric = Math.floor(Math.random() * passwordLength) + 1;
-    while (numberOfNumeric === 0 || numberOfNumeric === passwordLength) {
-      numberOfNumeric = Math.floor(Math.random() * passwordLength) + 1;
-    }
-    numberOfSpecialChar = passwordLength - numberOfNumeric;
-    getPassword(null, null, numberOfNumeric, numberOfSpecialChar);
+    charactersCounter = randomlySplitNumber(passwordLength, 2);
+    getPassword(null, null, charactersCounter[0], charactersCounter[1]);
   } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === true) {
 
   } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === true) {
@@ -97,6 +74,8 @@ function generatePassword() {
   } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === true) {
 
   } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === false) {
+
+  } else {
 
   }
   
@@ -108,27 +87,40 @@ function generatePassword() {
 }
 
 //randomly add characters to password array
-function getPassword(numberOfUppercase, numberOfLowercase, numberOfNumeric, numberOfSpecialChar) {
-  if (numberOfUppercase > 0) {
-    for (i = 0; i < numberOfUppercase; i++) {
+function getPassword(counterUppercase, counterLowercase, counterNumeric, counterSpecialCharacter) {
+  if (counterUppercase > 0) {
+    for (i = 0; i < counterUppercase; i++) {
       password.push(randomPickerUppercase());
     }
   }
-  if (numberOfLowercase > 0) {
-    for (i = 0; i < numberOfLowercase; i++) {
+  if (counterLowercase > 0) {
+    for (i = 0; i < counterLowercase; i++) {
       password.push(randomPickerLowercase());
     }
   }
-  if (numberOfNumeric > 0) {
-    for (i = 0; i < numberOfNumeric; i++) {
+  if (counterNumeric > 0) {
+    for (i = 0; i < counterNumeric; i++) {
       password.push(randomPickerNumber());
     }
   }
-  if (numberOfSpecialChar > 0) {
-    for (i = 0; i < numberOfSpecialChar; i++) {
+  if (counterSpecialCharacter > 0) {
+    for (i = 0; i < counterSpecialCharacter; i++) {
       password.push(randomPickerSpecialChar());
     }
   }
+}
+
+//split password length randomly
+function randomlySplitNumber(passwordLength, counter) {
+  var counterArr = ["", "", ""];
+  if (counter === 2) {
+    counterArr[0] = Math.floor(Math.random() * passwordLength) + 1
+    while (counterArr[0] === 0 || counterArr[0] === passwordLength) {
+      counterArr[0] = Math.floor(Math.random() * passwordLength) + 1;
+    }
+    counterArr[1] = passwordLength - counterArr[0];
+  }
+  return counterArr;
 }
 
 //shuffle array
