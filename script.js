@@ -17,21 +17,34 @@ function writePassword() {
   var generatedPassword = generatePassword();
   var passwordText = document.querySelector("#password");
   passwordText.value = generatedPassword;
-
+  
   //reset password array
   password = [];
 }
 
 //password generator
 function generatePassword() {
-
+  
+  var anotherCounter = 0;
   //to confirm which type of characters user needs and how long is the password
   var confirmUppercase = confirm("Do you want uppercase characters?\nClick 'OK' for yes, click 'Cancel' for no.");
+  if (confirmUppercase) {
+    anotherCounter = anotherCounter + 1;
+  }
   var confirmLowercase = confirm("Do you want lowercase characters?\nClick 'OK' for yes, click 'Cancel' for no.");
+  if (confirmLowercase) {
+    anotherCounter = anotherCounter + 1;
+  }
   var confirmNumber = confirm("Do you want numbers?\nClick 'OK' for yes, click 'Cancel' for no.");
+  if (confirmNumber) {
+    anotherCounter = anotherCounter + 1;
+  }
   var confirmSpecialChar = confirm("Do you want special characters?\nClick 'OK' for yes, click 'Cancel' for no.");
+  if (confirmSpecialChar) {
+    anotherCounter = anotherCounter + 1;
+  }
   var passwordLength = Number(prompt("Length of the password?\nEnter a number between 8~128."));
-  
+  console.log(anotherCounter);
   //store how many of each characters we need
   var charactersCounter;
 
@@ -40,45 +53,63 @@ function generatePassword() {
     var passwordLength = Number(prompt("Invild entry.\nEnter a number between 8~128."));
   }
 
-  //check which type of characters user needs and tells getPassword how many of each characters we need
-  if (confirmUppercase === true && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === false) {
-    getPassword(passwordLength);
-  } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === false) {
-    getPassword(null, passwordLength);
-  } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === false) {
-    getPassword(null, null, passwordLength);
-  } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === true) {
-    getPassword(null, null, null, passwordLength);
-  } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === false) {
-    charactersCounter = randomlySplitNumber(passwordLength, 2);
-    getPassword(charactersCounter[0], charactersCounter[1]);
-  } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === false) {
-    charactersCounter = randomlySplitNumber(passwordLength, 2);
-    getPassword(charactersCounter[0], null, charactersCounter[1]);
-  } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === true) {
-    charactersCounter = randomlySplitNumber(passwordLength, 2);
-    getPassword(charactersCounter[0], null, null, charactersCounter[1]);
-  } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === false) {
-    charactersCounter = randomlySplitNumber(passwordLength, 2);
-    getPassword(null, charactersCounter[0], charactersCounter[1]);
-  } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === true) {
-    charactersCounter = randomlySplitNumber(passwordLength, 2);
-    getPassword(null, charactersCounter[0], null, charactersCounter[1]);
-  } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === true) {
-    charactersCounter = randomlySplitNumber(passwordLength, 2);
-    getPassword(null, null, charactersCounter[0], charactersCounter[1]);
-  } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === true) {
+  charactersCounter = randomlySplitNumber(passwordLength, anotherCounter);
 
-  } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === true) {
-
-  } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === true) {
-
-  } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === false) {
-
-  } else {
-
+  if (confirmUppercase) {
+    getPassword(charactersCounter[0]);
+    charactersCounter.splice(0, 1);
   }
-  
+  if (confirmLowercase) {
+    getPassword(null, charactersCounter[0]);
+    charactersCounter.splice(0, 1);
+  }
+  if (confirmNumber) {
+    getPassword(null, null, charactersCounter[0]);
+    charactersCounter.splice(0, 1);
+  }
+  if (confirmSpecialChar) {
+    getPassword(null, null, null, charactersCounter[0]);
+  }
+
+  //check which type of characters user needs and tells getPassword how many of each characters we need
+  // if (confirmUppercase === true && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === false) {
+  //   getPassword(passwordLength);
+  // } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === false) {
+  //   getPassword(null, passwordLength);
+  // } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === false) {
+  //   getPassword(null, null, passwordLength);
+  // } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === true) {
+  //   getPassword(null, null, null, passwordLength);
+  // } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === false) {
+  //   charactersCounter = randomlySplitNumber(passwordLength, 2);
+  //   getPassword(charactersCounter[0], charactersCounter[1]);
+  // } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === false) {
+  //   charactersCounter = randomlySplitNumber(passwordLength, 2);
+  //   getPassword(charactersCounter[0], null, charactersCounter[1]);
+  // } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === false && confirmSpecialChar === true) {
+  //   charactersCounter = randomlySplitNumber(passwordLength, 2);
+  //   getPassword(charactersCounter[0], null, null, charactersCounter[1]);
+  // } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === false) {
+  //   charactersCounter = randomlySplitNumber(passwordLength, 2);
+  //   getPassword(null, charactersCounter[0], charactersCounter[1]);
+  // } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === true) {
+  //   charactersCounter = randomlySplitNumber(passwordLength, 2);
+  //   getPassword(null, charactersCounter[0], null, charactersCounter[1]);
+  // } else if (confirmUppercase === false && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === true) {
+  //   charactersCounter = randomlySplitNumber(passwordLength, 2);
+  //   getPassword(null, null, charactersCounter[0], charactersCounter[1]);
+  // } else if (confirmUppercase === false && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === true) {
+
+  // } else if (confirmUppercase === true && confirmLowercase === false && confirmNumber === true && confirmSpecialChar === true) {
+
+  // } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === false && confirmSpecialChar === true) {
+
+  // } else if (confirmUppercase === true && confirmLowercase === true && confirmNumber === true && confirmSpecialChar === false) {
+
+  // } else {
+
+  // }
+
   //shuffle password
   password = shuffle(password);
 
@@ -112,8 +143,10 @@ function getPassword(counterUppercase, counterLowercase, counterNumeric, counter
 
 //split password length randomly
 function randomlySplitNumber(passwordLength, counter) {
-  var counterArr = ["", "", ""];
-  if (counter === 2) {
+  var counterArr = ["", "", "", ""];
+  if (counter === 1) {
+    counterArr[0] = passwordLength;
+  } else if (counter === 2) {
     counterArr[0] = Math.floor(Math.random() * passwordLength) + 1
     while (counterArr[0] === 0 || counterArr[0] === passwordLength) {
       counterArr[0] = Math.floor(Math.random() * passwordLength) + 1;
