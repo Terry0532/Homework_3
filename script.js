@@ -17,14 +17,14 @@ function writePassword() {
   var generatedPassword = generatePassword();
   var passwordText = document.querySelector("#password");
   passwordText.value = generatedPassword;
-  
+
   //reset password array
   password = [];
 }
 
 //password generator
 function generatePassword() {
-  
+
   var anotherCounter = 0;
   //to confirm which type of characters user needs and how long is the password
   var confirmUppercase = confirm("Do you want uppercase characters?\nClick 'OK' for yes, click 'Cancel' for no.");
@@ -44,7 +44,6 @@ function generatePassword() {
     anotherCounter = anotherCounter + 1;
   }
   var passwordLength = Number(prompt("Length of the password?\nEnter a number between 8~128."));
-  console.log(anotherCounter);
   //store how many of each characters we need
   var charactersCounter;
 
@@ -147,11 +146,51 @@ function randomlySplitNumber(passwordLength, counter) {
   if (counter === 1) {
     counterArr[0] = passwordLength;
   } else if (counter === 2) {
-    counterArr[0] = Math.floor(Math.random() * passwordLength) + 1
+    counterArr[0] = Math.floor(Math.random() * passwordLength) + 1;
     while (counterArr[0] === 0 || counterArr[0] === passwordLength) {
       counterArr[0] = Math.floor(Math.random() * passwordLength) + 1;
     }
     counterArr[1] = passwordLength - counterArr[0];
+  } else if (counter === 3) {
+    counterArr[0] = Math.floor(Math.random() * passwordLength) + 1;
+    while (counterArr[0] === 0 || counterArr[0] === passwordLength || counterArr[0] === passwordLength - 1) {
+      counterArr[0] = Math.floor(Math.random() * passwordLength) + 1;
+    }
+    if (counterArr[0] === passwordLength - 2) {
+      counterArr[1] = 1;
+      counterArr[2] = 1;
+      return counterArr;
+    }
+    counterArr[1] = Math.floor(Math.random() * (passwordLength - counterArr[0])) + 1;
+    while (counterArr[1] === 0 || counterArr[1] === passwordLength - counterArr[0]) {
+      counterArr[1] = Math.floor(Math.random() * (passwordLength - counterArr[0])) + 1;
+    }
+    counterArr[2] = passwordLength - counterArr[0] - counterArr[1];
+  } else if (counter === 4) {
+    counterArr[0] = Math.floor(Math.random() * passwordLength) + 1;
+    while (counterArr[0] === 0 || counterArr[0] === passwordLength || counterArr[0] === passwordLength - 1 || counterArr[0] === passwordLength - 2) {
+      counterArr[0] = Math.floor(Math.random() * passwordLength) + 1;
+    }
+    if (counterArr[0] === passwordLength - 3) {
+      counterArr[1] = 1;
+      counterArr[2] = 1;
+      counterArr[3] = 1;
+      return counterArr;
+    }
+    counterArr[1] = Math.floor(Math.random() * (passwordLength - counterArr[0])) + 1;
+    while (counterArr[1] === 0 || counterArr[1] === passwordLength - counterArr[0] || counterArr[1] === passwordLength - counterArr[0] - 1) {
+      counterArr[1] = Math.floor(Math.random() * (passwordLength - counterArr[0])) + 1;
+    }
+    if (counterArr[1] === passwordLength - counterArr[0] - 2) {
+      counterArr[2] = 1;
+      counterArr[3] = 1;
+      return counterArr;
+    }
+    counterArr[2] = Math.floor(Math.random() * (passwordLength - counterArr[0] - counterArr[1])) + 1;
+    while (counterArr[2] === 0 || counterArr[2] === passwordLength - counterArr[0] - counterArr[1]) {
+      counterArr[2] = Math.floor(Math.random() * (passwordLength - counterArr[0] - counterArr[2])) + 1;
+    }
+    counterArr[3] = passwordLength - counterArr[0] - counterArr[1] - counterArr[2];
   }
   return counterArr;
 }
