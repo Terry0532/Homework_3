@@ -27,33 +27,47 @@ function generatePassword() {
 
   //to store how confirm from user
   var confirmCounter = 0;
-  
-  //to confirm which type of characters user needs and how long is the password
-  var confirmUppercase = confirm("Do you want uppercase characters?\nClick 'OK' for yes, click 'Cancel' for no.");
-  if (confirmUppercase) {
-    confirmCounter = confirmCounter + 1;
-  }
-  var confirmLowercase = confirm("Do you want lowercase characters?\nClick 'OK' for yes, click 'Cancel' for no.");
-  if (confirmLowercase) {
-    confirmCounter = confirmCounter + 1;
-  }
-  var confirmNumber = confirm("Do you want numbers?\nClick 'OK' for yes, click 'Cancel' for no.");
-  if (confirmNumber) {
-    confirmCounter = confirmCounter + 1;
-  }
-  var confirmSpecialChar = confirm("Do you want special characters?\nClick 'OK' for yes, click 'Cancel' for no.");
-  if (confirmSpecialChar) {
-    confirmCounter = confirmCounter + 1;
-  }
-  var passwordLength = Number(prompt("Length of the password?\nEnter a number between 8~128."));
 
-  //store how many of each characters we need
-  var charactersCounter;
+  var confirmAtLeastOneType = true;
+
+  //to confirm which type of characters user needs
+  while (confirmAtLeastOneType) {
+    var confirmUppercase = confirm("Do you want uppercase characters?\nClick 'OK' for yes, click 'Cancel' for no.");
+    if (confirmUppercase) {
+      confirmCounter = confirmCounter + 1;
+      confirmAtLeastOneType = false;
+    }
+    var confirmLowercase = confirm("Do you want lowercase characters?\nClick 'OK' for yes, click 'Cancel' for no.");
+    if (confirmLowercase) {
+      confirmCounter = confirmCounter + 1;
+      confirmAtLeastOneType = false;
+    }
+    var confirmNumber = confirm("Do you want numbers?\nClick 'OK' for yes, click 'Cancel' for no.");
+    if (confirmNumber) {
+      confirmCounter = confirmCounter + 1;
+      confirmAtLeastOneType = false;
+    }
+    var confirmSpecialChar = confirm("Do you want special characters?\nClick 'OK' for yes, click 'Cancel' for no.");
+    if (confirmSpecialChar) {
+      confirmCounter = confirmCounter + 1;
+      confirmAtLeastOneType = false;
+    }
+    if (confirmAtLeastOneType) {
+      alert("Please at least select one character type.")
+    }
+  }
+  confirmAtLeastOneType = true;
+
+  //enter how long the password
+  var passwordLength = Number(prompt("Length of the password?\nEnter a number between 8~128."));
 
   //must enter a number between 8~128
   while (passwordLength < 8 || passwordLength > 128 || isNaN(passwordLength)) {
     var passwordLength = Number(prompt("Invild entry.\nEnter a number between 8~128."));
   }
+
+  //store how many of each characters we need
+  var charactersCounter;
 
   //split passwordlength into random numbers and return it as an array
   charactersCounter = randomlySplitNumber(passwordLength, confirmCounter);
@@ -74,7 +88,7 @@ function generatePassword() {
   if (confirmSpecialChar) {
     getPassword(null, null, null, charactersCounter[0]);
   }
-  
+
   //shuffle password
   password = shuffle(password);
 
